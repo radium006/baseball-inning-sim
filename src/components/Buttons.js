@@ -363,7 +363,6 @@ class Buttons extends Component{
                 <h3>Completed Plays</h3>
                 {this.state.completedInnings.slice(1).map(inning => (
                     <div>
-                    <h2>Inning: {this.state.inningNum}</h2>
                     <h4>Plays: {inning.finalPlays}</h4>
                     <h4>Runs: {inning.totalRuns}</h4>
                     </div>
