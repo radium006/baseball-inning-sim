@@ -15,7 +15,16 @@ class Buttons extends Component{
             balls: 0,
             outs: 0,
             bases: [0,0,0],
-            playsArr: []
+            playsArr: [],
+            showCompleted: false,
+            completedInnings: [{
+                totalRuns: null,
+                totalOuts: null,
+                finalPlays: null,
+                finalBases: null,
+                
+            }],
+            inningNum: 1
         }
     }
 
@@ -142,6 +151,12 @@ class Buttons extends Component{
     }
 
     runnerOut = () => {
+
+        if(this.state.outs ===2){
+            this.endOfInning()
+        }
+        else{
+
         this.setState({
             playsArr: [...this.state.playsArr, ' out']
         })
@@ -208,6 +223,12 @@ class Buttons extends Component{
             })
         }
     }
+    else{
+        this.setState({
+            outs: this.state.outs + 1
+        })
+    }
+}
 }
 
     walk = (action) => {
@@ -252,12 +273,31 @@ class Buttons extends Component{
     }
 
     strikeOut = () => {
+        if(this.state.outs ===2){
+            this.endOfInning()
+        }
+        else{
         this.setState({
             playsArr: [...this.state.playsArr, ' k']
         })
         this.setState({
             outs: this.state.outs + 1
-         })    
+         })
+        }    
+    }
+
+    endOfInning = () =>{
+        this.setState({
+            showCompleted: true,
+            completedInnings: [...this.state.completedInnings, {
+                totalRuns: this.state.runs,
+                totalOuts: 3,
+                finalPlays: this.state.playsArr,
+                finalBases: this.state.bases,
+                inningNum: this.state.inningNum + 1
+            }]
+        })
+        this.clearBoard()
     }
 
     clearBoard = () => {
@@ -272,6 +312,11 @@ class Buttons extends Component{
     }
 
     render(){
+        
+        var style = {}
+        if(!this.state.showCompleted){
+            style.display = 'none'
+        }
         return(
             <div>
             <div>
@@ -310,8 +355,18 @@ class Buttons extends Component{
            
             </div>
             <div>
-                <h3>Plays</h3>
+                <h3>Current Inning Plays</h3>
                 <h4>{this.state.playsArr}</h4>
+            </div>
+            <div style={style}>
+                <h3>Completed Plays</h3>
+                {this.state.completedInnings.slice(1).map(inning => (
+                    <div>
+                    <h2>Inning: {this.state.inningNum}</h2>
+                    <h4>Plays: {inning.finalPlays}</h4>
+                    <h4>Runs: {inning.totalRuns}</h4>
+                    </div>
+                ))}
             </div>
             </div>
         )
