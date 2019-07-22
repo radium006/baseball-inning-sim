@@ -294,8 +294,9 @@ class Buttons extends Component{
                 totalOuts: 3,
                 finalPlays: this.state.playsArr,
                 finalBases: this.state.bases,
-                inningNum: this.state.inningNum + 1
-            }]
+               
+            }],
+            inningNum: this.state.inningNum + 1
         })
         this.clearBoard()
     }
